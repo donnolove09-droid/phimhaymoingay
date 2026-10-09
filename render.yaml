@@ -1,0 +1,41 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> chọn repo GitHub này
+services:
+  - type: web
+    name: phimhay
+    runtime: node
+    plan: free
+    region: singapore          # gần Việt Nam nhất
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: JWT_SECRET
+        generateValue: true     # Render tự sinh chuỗi ngẫu nhiên
+      # ---- Bắt buộc: điền trong Dashboard ----
+      - key: MONGO_URI
+        sync: false
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # ---- Email OTP (chọn 1: Brevo khuyên dùng) ----
+      - key: BREVO_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      # ---- Telegram ----
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_ADMIN_CHAT_ID
+        sync: false
+      # ---- Phim ----
+      - key: TMDB_API_KEY
+        sync: false
+      # ---- Giữ server không ngủ (tuỳ chọn) ----
+      - key: KEEP_ALIVE
+        value: "true"
