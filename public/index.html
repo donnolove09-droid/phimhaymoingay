@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhimHay</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="splash" style="position:fixed;inset:0;background:#0a0a0b;z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;color:#9a9aa3;font-family:Inter,sans-serif">
+<div style="width:48px;height:48px;border:3px solid #26262b;border-top-color:#e50914;border-radius:50%;animation:spin 0.8s linear infinite"></div>
+<p style="font-size:14px">Đang khởi động...</p>
+<p style="font-size:12px;opacity:0.6">Lần đầu có thể mất 30-60 giây</p>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</div>
+
+<div class="key-gate" id="keyGate">
+<div class="key-gate-inner">
+<h1>PhimHay</h1>
+<p>Nhập mã truy cập để xem phim</p>
+<input type="password" id="keyInput" placeholder="Nhập key..." autocomplete="off">
+<button id="keySubmit" class="btn btn-primary">Xác nhận</button>
+<div class="key-error" id="keyError"></div>
+<a href="/getkey" class="key-trial-link">Chưa có key? Lấy key dùng thử miễn phí</a>
+</div>
+</div>
+
+<div id="app" class="hidden">
+<header class="header">
+<div class="container header-inner">
+<a href="#" class="brand">PhimHay</a>
+<nav class="nav">
+<a href="#" class="nav-link active" data-tab="aggregate">Phim tổng hợp</a>
+<span id="sourceTabs" class="source-tabs"></span>
+<a href="#" class="nav-link" data-tab="custom">Kho phim</a>
+<a href="#" class="nav-link" data-tab="tmdb_popular">Trailer</a>
+<a href="#" class="nav-link" data-tab="favorites">Yêu thích</a>
+</nav>
+<div class="search">
+<input type="text" id="searchInput" placeholder="Tìm kiếm">
+</div>
+<div class="session-timer">
+<span class="timer-label">Phiên</span>
+<span id="countdown" class="timer-value">00:00:00</span>
+</div>
+<a href="/auth" class="btn-auth" id="btnAuth">Đăng nhập</a>
+<button class="logout" id="logoutBtn" title="Đăng xuất">&times;</button>
+</div>
+</header>
+
+<section class="hero" id="hero">
+<div class="hero-overlay"></div>
+<div class="container hero-content">
+<span class="hero-tag">Phim nổi bật</span>
+<h1 class="hero-title" id="heroTitle">Đang tải...</h1>
+<p class="hero-desc" id="heroDesc"></p>
+<div class="hero-actions">
+<button class="btn btn-primary" id="heroPlay">Xem ngay</button>
+</div>
+</div>
+</section>
+
+<main class="container main">
+<div class="section-head">
+<h2 class="section-title" id="sectionTitle">Phim tổng hợp</h2>
+<div class="source-badge" id="sourceBadge"></div>
+</div>
+<div class="movie-grid" id="movieGrid"></div>
+<div class="load-more-wrap">
+<button class="btn btn-outline" id="loadMoreBtn">Tải thêm</button>
+</div>
+</main>
+
+<footer class="footer"><div class="container">PhimHay</div></footer>
+</div>
+
+<div class="modal" id="movieModal">
+<div class="modal-inner">
+<button class="modal-close" onclick="closeModal()">&times;</button>
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div class="modal-body">
+<div class="modal-poster"><img id="modalPoster" src=""></div>
+<div class="modal-info">
+<h2 id="modalTitle"></h2>
+<div class="modal-meta" id="modalMeta"></div>
+<p id="modalOverview"></p>
+<div class="modal-actions">
+<button class="btn btn-primary" id="modalPlay">Xem phim</button>
+<button class="btn btn-ghost" id="modalFavorite">Yêu thích</button>
+</div>
+<div id="episodesList" class="episodes-list"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="player-modal" id="playerModal">
+<div class="player-inner">
+<button class="modal-close" onclick="closePlayer()">&times;</button>
+<div class="video-wrap">
+<iframe id="playerFrame" src="" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; encrypted-media" referrerpolicy="no-referrer"></iframe>
+<video id="playerVideo" controls playsinline preload="metadata" class="hidden"></video>
+<div id="playerMsg" class="player-msg hidden"></div>
+</div>
+<div id="playerAlt" class="player-alt hidden"></div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.8/dist/hls.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

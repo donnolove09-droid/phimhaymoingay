@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — PhimHay</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="login-gate" id="loginGate">
+<div class="login-inner">
+<h1>Admin Panel</h1>
+<p>Đăng nhập để quản lý</p>
+<input type="text" id="username" placeholder="Tài khoản" autocomplete="username">
+<input type="password" id="password" placeholder="Mật khẩu" autocomplete="current-password">
+<button id="loginBtn" class="btn btn-primary">Đăng nhập</button>
+<div class="login-error" id="loginError"></div>
+</div>
+</div>
+
+<div id="adminApp" class="hidden">
+<header class="admin-header">
+<div class="container header-row">
+<h1>Admin Panel</h1>
+<nav class="admin-nav">
+<a href="#" class="tab active" data-view="movies">Quản lý phim</a>
+<a href="#" class="tab" data-view="add">Thêm phim</a>
+<a href="#" class="tab" data-view="keys">Keys</a>
+<a href="#" class="tab" data-view="orders">Đơn hàng</a>
+<a href="#" class="tab" data-view="import">Import Keys</a>
+<a href="#" class="tab" data-view="settings">Cài đặt</a>
+</nav>
+<button class="logout" id="logoutBtn">Đăng xuất</button>
+</div>
+</header>
+
+<main class="container admin-main">
+<section class="view active" id="view-movies">
+<div class="view-head">
+<h2>Danh sách phim</h2>
+<input type="text" id="adminSearch" placeholder="Tìm phim..." class="input-search">
+</div>
+<div class="movie-table-wrap">
+<table class="movie-table">
+<thead><tr><th>Poster</th><th>Tiêu đề</th><th>Năm</th><th>Loại</th><th>Lượt xem</th><th>Hành động</th></tr></thead>
+<tbody id="moviesTable"></tbody>
+</table>
+</div>
+</section>
+
+<section class="view" id="view-add">
+<div class="view-head">
+<h2 id="formTitle">Thêm phim mới</h2>
+<button class="btn btn-ghost" id="resetForm">Làm mới</button>
+</div>
+<form id="movieForm" class="form-grid">
+<input type="hidden" id="editId">
+<div class="form-group"><label>Tiêu đề *</label><input type="text" id="fTitle" required></div>
+<div class="form-group"><label>Slug</label><input type="text" id="fSlug"></div>
+<div class="form-group"><label>Năm</label><input type="number" id="fYear"></div>
+<div class="form-group"><label>Quốc gia</label><input type="text" id="fCountry"></div>
+<div class="form-group"><label>Thể loại (cách dấu phẩy)</label><input type="text" id="fGenres"></div>
+<div class="form-group"><label>Chất lượng</label><select id="fQuality"><option>HD</option><option>FHD</option><option>4K</option></select></div>
+<div class="form-group"><label>Ngôn ngữ</label><select id="fLanguage"><option>Vietsub</option><option>Thuyết minh</option></select></div>
+<div class="form-group"><label>Loại phim</label><select id="fIsSeries"><option value="false">Phim lẻ</option><option value="true">Phim bộ</option></select></div>
+<div class="form-group full"><label>Poster URL</label><input type="url" id="fPoster"></div>
+<div class="form-group full"><label>Backdrop URL</label><input type="url" id="fBackdrop"></div>
+<div class="form-group full"><label>Mô tả</label><textarea id="fDescription" rows="4"></textarea></div>
+<div class="form-group"><label>Loại video (hệ thống tự nhận diện theo link)</label><select id="fVideoType"><option value="iframe">Tự động / iFrame</option><option value="m3u8">M3U8</option><option value="mp4">MP4</option></select></div>
+<div class="form-group full"><label>URL video (m3u8 / mp4 / embed / YouTube / Google Drive) — phim bộ có thể để trống, nhập link ở từng tập</label><input type="text" id="fVideoUrl" placeholder="https://.../video.mp4 hoặc https://.../index.m3u8"></div>
+<div class="form-group full"><label>Danh sách tập</label><div id="episodesEditor"></div><button type="button" class="btn btn-outline" id="addEpisode">Thêm tập</button></div>
+<div class="form-group full form-actions">
+<button type="submit" class="btn btn-primary">Lưu phim</button>
+<button type="button" class="btn btn-ghost" id="cancelEdit">Hủy</button>
+</div>
+</form>
+</section>
+
+<section class="view" id="view-keys">
+<div class="view-head"><h2>Quản lý Key</h2><button class="btn btn-outline" id="refreshKeys">Làm mới</button></div>
+<div class="key-stats" id="keyStats"></div>
+<div class="setting-card" style="margin-top:24px">
+<h3>Reset / Thu hồi key</h3>
+<div class="setting-row">
+<input type="text" id="keyManageInput" placeholder="FIMHAY-XXX-XXXX-XXXX">
+<button class="btn btn-primary" id="resetKeyBtn">Reset</button>
+<button class="btn btn-ghost" id="revokeKeyBtn">Thu hồi</button>
+</div>
+<div class="setting-msg" id="keyManageMsg"></div>
+</div>
+<div class="setting-card">
+<h3>Key đã sử dụng</h3>
+<div class="movie-table-wrap">
+<table class="movie-table">
+<thead><tr><th>Key</th><th>Dùng lúc</th><th>Hết hạn</th><th>IP</th></tr></thead>
+<tbody id="usedKeysTable"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="view" id="view-orders">
+<div class="view-head"><h2>Đơn hàng</h2><button class="btn btn-outline" id="refreshOrders">Làm mới</button></div>
+<div class="key-stats" id="orderStats"></div>
+<div class="movie-table-wrap" style="margin-top:24px">
+<table class="movie-table">
+<thead><tr><th>Mã</th><th>User</th><th>Gói</th><th>Tiền</th><th>PT</th><th>Trạng thái</th><th>Tạo lúc</th><th></th></tr></thead>
+<tbody id="ordersTable"></tbody>
+</table>
+</div>
+</section>
+
+<section class="view" id="view-import">
+<div class="view-head"><h2>Import Keys</h2></div>
+<div class="setting-card">
+<h3>Paste danh sách key</h3>
+<p>Mỗi key 1 dòng. Key trùng tự bỏ qua.</p>
+<textarea id="keysInput" rows="20" style="width:100%;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:monospace;font-size:12px"></textarea>
+<div class="setting-row" style="margin-top:12px">
+<button class="btn btn-primary" id="importKeysBtn">Import</button>
+</div>
+<div class="setting-msg" id="importMsg"></div>
+</div>
+</section>
+
+<section class="view" id="view-settings">
+<div class="view-head"><h2>Cài đặt</h2></div>
+<div class="setting-card">
+<h3>Access Key mặc định</h3>
+<p>Key dùng khi user gõ vào trang chủ.</p>
+<div class="setting-row">
+<input type="text" id="accessKeyInput" placeholder="LUNVUITUOI">
+<button class="btn btn-primary" id="saveAccessKey">Lưu</button>
+</div>
+<div class="setting-msg" id="accessKeyMsg"></div>
+</div>
+<div class="setting-card">
+<h3>Đổi mật khẩu admin</h3>
+<div class="setting-row">
+<input type="password" id="newPassword" placeholder="Mật khẩu mới">
+<button class="btn btn-primary" id="savePassword">Cập nhật</button>
+</div>
+<div class="setting-msg" id="passwordMsg"></div>
+</div>
+</section>
+</main>
+</div>
+<script src="admin.js"></script>
+</body>
+</html>

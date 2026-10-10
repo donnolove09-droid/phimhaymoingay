@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận key dùng thử — PhimHay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="getkey.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back">Về trang chủ</a>
+        <div class="card">
+            <div class="card-header">
+                <h1>Key dùng thử Telegram</h1>
+                <p>Nhận key miễn phí từ bot Telegram</p>
+            </div>
+            <div class="card-body" id="cardBody">
+                <div class="state" id="stateLoading">
+                    <div class="spinner"></div>
+                    <p>Đang kiểm tra link...</p>
+                </div>
+                <div class="state hidden" id="stateReady">
+                    <div class="info-box">
+                        <div class="info-row">
+                            <span>Thời hạn key</span>
+                            <strong id="durationText">1 giờ</strong>
+                        </div>
+                        <div class="info-row">
+                            <span>Link hết hạn sau</span>
+                            <strong id="expireText">15 phút</strong>
+                        </div>
+                        <div class="info-row" id="userRow" style="display:none">
+                            <span>Telegram</span>
+                            <strong id="userText">—</strong>
+                        </div>
+                    </div>
+                    <p class="note">Bấm nút bên dưới để nhận key ngay. Link chỉ dùng được 1 lần.</p>
+                    <button class="btn-primary" id="claimBtn">Nhận key miễn phí</button>
+                </div>
+                <div class="state hidden" id="stateProcessing">
+                    <div class="spinner"></div>
+                    <p>Đang cấp key cho bạn...</p>
+                </div>
+                <div class="state hidden" id="stateSuccess">
+                    <div class="success-icon"></div>
+                    <h2>Nhận key thành công</h2>
+                    <p class="success-desc">Key của bạn đã sẵn sàng</p>
+                    <div class="key-display">
+                        <code id="keyValue">—</code>
+                        <button class="copy-btn" id="copyBtn">Sao chép</button>
+                    </div>
+                    <div class="info-box">
+                        <div class="info-row">
+                            <span>Thời hạn</span>
+                            <strong id="successDuration">1 giờ</strong>
+                        </div>
+                        <div class="info-row">
+                            <span>Bắt đầu từ</span>
+                            <strong>Khi nhập key vào web</strong>
+                        </div>
+                    </div>
+                    <a href="/" class="btn-primary btn-block">Vào xem phim ngay</a>
+                </div>
+                <div class="state hidden" id="stateError">
+                    <div class="error-icon">!</div>
+                    <h2 id="errorTitle">Không thể lấy key</h2>
+                    <p id="errorMessage">Vui lòng thử lại sau.</p>
+                    <a href="/getkey" class="btn-ghost btn-block">Lấy key dùng thử thường</a>
+                </div>
+            </div>
+        </div>
+        <footer><p>Mỗi người lấy được 1 key / 24h</p></footer>
+    </div>
+    <script src="getkeyfree.js"></script>

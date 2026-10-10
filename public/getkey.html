@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lấy key dùng thử — PhimHay</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="getkey.css">
+</head>
+<body>
+<div class="container">
+<a href="/" class="back">Về trang chủ</a>
+<div class="card">
+<div class="card-header">
+<h1>Lấy key dùng thử</h1>
+<p>Nhận key miễn phí để trải nghiệm website</p>
+</div>
+<div class="card-body" id="cardBody">
+<div class="state" id="stateLoading">
+<div class="spinner"></div>
+<p>Đang kiểm tra...</p>
+</div>
+<div class="state hidden" id="stateReady">
+<div class="info-box">
+<div class="info-row"><span>Thời hạn key</span><strong id="durationText">1 giờ</strong></div>
+<div class="info-row"><span>Key còn lại</span><strong id="remainingText">—</strong></div>
+</div>
+<label class="input-label">Email hoặc SĐT (không bắt buộc)
+<input type="text" id="contactInput" placeholder="Để nhận thông báo">
+</label>
+<button class="btn-primary" id="claimBtn">Nhận key miễn phí</button>
+<p class="note">Mỗi thiết bị chỉ nhận được 1 key mỗi 24 giờ.</p>
+</div>
+<div class="state hidden" id="stateProcessing">
+<div class="spinner"></div>
+<p>Đang cấp key cho bạn...</p>
+</div>
+<div class="state hidden" id="stateSuccess">
+<div class="success-icon"></div>
+<h2>Nhận key thành công</h2>
+<p class="success-desc">Key của bạn đã sẵn sàng</p>
+<div class="key-display">
+<code id="keyValue">—</code>
+<button class="copy-btn" id="copyBtn">Sao chép</button>
+</div>
+<div class="info-box">
+<div class="info-row"><span>Thời hạn</span><strong id="successDuration">1 giờ</strong></div>
+<div class="info-row"><span>Bắt đầu từ</span><strong>Khi nhập key vào web</strong></div>
+</div>
+<a href="/" class="btn-primary btn-block">Vào xem phim ngay</a>
+</div>
+<div class="state hidden" id="stateError">
+<div class="error-icon">!</div>
+<h2 id="errorTitle">Không thể lấy key</h2>
+<p id="errorMessage">Vui lòng thử lại sau.</p>
+<a href="/" class="btn-ghost btn-block">Về trang chủ</a>
+</div>
+</div>
+</div>
+<footer><p>Key chỉ dùng được 1 lần cho 1 phiên xem phim.</p></footer>
+</div>
+<script src="getkey.js"></script>
+</body>
+</html>
